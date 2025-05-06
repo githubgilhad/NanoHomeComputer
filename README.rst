@@ -2,11 +2,11 @@
 
 .. |Ohm| raw:: html
 
-	&\#8486;
+	Ω
 
 .. |kOhm| raw:: html
 
-	k&\#8486;
+	kΩ
 
 
 
