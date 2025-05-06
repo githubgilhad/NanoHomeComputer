@@ -28,14 +28,7 @@ VGA
 Prvním krokem bylo nějak zajistit fyzické připojení konektorů pro VGA monitor, kompozitní monitor (RCA) a PS/2 klávesnici - to bylo zrealizováno na univerzální destičce a ta byla vybavena i piny pro snadné osazení na breadboard. Přepínače napájení ji umožňují připojit bez ohledu na jeho polaritu - ta jde nastavit na dvou jumperech u breadboardu. Že je připojena správně se pozná podle LED na ní umístěné.
 
 
-	|conectors.jpg|
-
-.. image:: PCB.png
-	:width: 250
-	:target: PCB.png
-
-
-	|conectorsSchema.png|
+|conectors.jpg| |PCB.png| |conectorsSchema.png|
 
 Výstup na VGA je řízen pomocí pinů Hsync, Vsync a VGA Signál jako "jednoduchý" černobílý obraz.
 Pro ovládání barev na VGA slouží vstupy Red, Green, Blue a Gray, které nastavují, jakou barvu má popředí, ale z výkonových důvodů je atmega328P nastavuje jen na začátku řádky znaků, takže všechny znaky na řádce mají stejnou barvu.
@@ -43,7 +36,7 @@ Pro správnou funkci je potřeba během každých 8 cyklů procesoru vystavit da
 
 Zde je schema breadboardu kde je vidět, že signál jde paralelně jako byte přez celý port B a je následně převeden do sériové podoby pomocí shift-registru **74HC165** (šlo by použít i 74HC166, ale ten jsem doma neměl). Jako zdroj hodin slouží pin D8, na který je přiveden hodinový signál krystalu pomocí správně nastavených fuses.
 
-	|breadboard-008-PS2-RCA-VGA-Nano.png|
+|breadboard-008-PS2-RCA-VGA-Nano.png|
 
 RCA
 ++++
@@ -148,4 +141,9 @@ Program a schémata k nalezení například na  `<http://mix.gilhad.cz//HW/PS2-R
 	:width: 250
 	:align: top
 	:target: conectorsSchema.png
+
+.. |PCB.png| image:: PCB.png
+	:width: 250
+	:align: top
+	:target: PCB.png
 
