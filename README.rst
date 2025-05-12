@@ -124,7 +124,7 @@ Na předváděné sestavě je současně **nainstalováno**:
 
 Program a schémata k nalezení například na  `<http://mix.gilhad.cz//HW/PS2-RCA-VGA/MakeFair2025.html>`__ a `<https://github.com/githubgilhad/NanoHomeComputer.git>`__
 
-
+Založeno na sloučení a rozšíření projektů  `Squeezing Water from Stone 3: Arduino Nano + 1(!) Logic IC = Computer with VGA and PS/2 <https://github.com/slu4coder/YouTube>`__ a `Composite video from Arduino UNO <https://www.youtube.com/watch?v=Th18tLP86WQ>`__ 
 
 
 .. |breadboard-008-PS2-RCA-VGA-Nano.png| image:: breadboard-008-PS2-RCA-VGA-Nano.png
