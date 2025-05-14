@@ -148,6 +148,11 @@ if (key==xF12){ if(bios.current_output==BIOS_VGA) { bios.set_output(BIOS_RCA); }
 								else { rotShape(); }			// put it back 
 							}
 							break;
+						case xEsc:
+							bios << YX( 10,  14) << COLOR( VGA_RED) << F("GAME  OVER");
+							bios << YX( 20,  13) << COLOR( VGA_YELLOW) << F("Press  SPACE");
+							state = 2;
+							break;
 					};
 					drawShape('#');				 // Draw the shape
 				}
@@ -220,20 +225,6 @@ class CItem {
 		void show() { bios.vram[y][x]= pgm_read_byte_near(&tiles[h]); };
 		void hide(char c) { bios.vram[y][x]=c; };
 };
-/*
-const char tiles_head[] PROGMEM = ">^<v";
-const char tiles_tail[] PROGMEM = "~!-;";
-const char tiles_body[4][4] PROGMEM = { 	// telo from -> to (dirs) (telo[l->l] je ocas [l] vse je jinak, predchozi smer->novy smer, smer->opacny je ocas
-	// l   u    r    d     << TO
-	{'a', 'b', '~', 'd'},	// l - FROM
-	{'e', 'f', 'g', '!'},	// u
-	{'-', 'j', 'k', 'l'},	// r
-	{'m', ';', 'o', 'p'}	// d
-};
-const char tiles_grass[] PROGMEM = ".";
-const char tiles_wall[] PROGMEM = "#";
-const char tiles_fruit[] PROGMEM = "*";
-*/
 const char tiles_head[] PROGMEM = ">^<v";
 const char tiles_tail[] PROGMEM = "~!=;";
 const unsigned char tiles_body[4][4] PROGMEM = { 	// telo from -> to (dirs) (telo[l->l] je ocas [l] vse je jinak, predchozi smer->novy smer, smer->opacny je ocas
@@ -284,6 +275,7 @@ void random_place(char c) {	// {{{
 uint16_t had_high=0;
 void Had(){
 	uint16_t count=0;
+	uint8_t cheat=0;
 	bios.clear(pgm_read_byte_near(&tiles_grass[0]));
 	for(uint8_t x=0; x<BIOS_COLS; ++x) {
 		bios.vram[0][x]=' ';
@@ -295,7 +287,6 @@ void Had(){
 		bios.vram[y][BIOS_COLS-1]=pgm_read_byte_near(&tiles_wall[random(sizeof(tiles_wall)-1)]);
 	};
 	CItem head(BIOS_ROWS/2,BIOS_COLS/2+1,dirs::right,tiles_head);
-//	bios.vram[BIOS_ROWS/2][BIOS_COLS/2]=tiles_body[dirs::right][dirs::right]; // mini telo, at 
 	CItem tail(BIOS_ROWS/2,BIOS_COLS/2,dirs::right,tiles_tail);
 	head.show();
 	tail.show();
@@ -304,7 +295,7 @@ void Had(){
 	uint8_t pass=0;
 	while(true){
 		if (++pass>20) {pass=0;random_place(pgm_read_byte_near(&tiles_fruit[random(sizeof(tiles_fruit)-1)]));};
-		bios.wait(score>20*8?1:20-(score>>3));
+		bios.wait((count>20*80)?1:(20-(count>>3)));
 		uint16_t k=bios.get_key();
 		dirs lh=head.h;
 		switch (k) {
@@ -313,6 +304,7 @@ void Had(){
 			case x4: case '4': case 'a': case 'A': head.h=dirs::left; break;
 			case x2: case '2': case 's': case 'S': head.h=dirs::down; break;
 			case xF12:{ if(bios.current_output==BIOS_VGA) { bios.set_output(BIOS_RCA); } else { bios.set_output(BIOS_VGA);} ; }; break;
+			case 'c': case 'C': cheat=10;break;
 			default: break;
 		};
 		uint8_t x=head.x;
@@ -321,6 +313,7 @@ void Had(){
 		if (is_wall(c))      {  bios << YX(1,3) << COLOR(VGA_RED) << F(" * * * H L A V O U   N E * * * "); break;}
 		else if (is_body(c)) {  bios << YX(1,3) << COLOR(VGA_RED) << F(" * * *   J A U V A J S   * * * "); break;}
 		else if (is_fruit(c)) {  head.hide(pgm_read_byte_near(&tiles_body[lh][head.h])); head.x=x;head.y=y;head.show(); count++;}
+		else if (cheat) { cheat--; head.hide(pgm_read_byte_near(&tiles_body[lh][head.h])); head.x=x;head.y=y;head.show(); count++;} // ovoce kdekoli
 		else if (is_grass(c)) {  head.hide(pgm_read_byte_near(&tiles_body[lh][head.h])); head.x=x;head.y=y;head.show(); 
 					tail.hide(pgm_read_byte_near(&tiles_grass[random(sizeof(tiles_grass)-1)])); tail.h=get_dir(move(tail.y, tail.x, tail.h)); tail.show();}
 		else {};
