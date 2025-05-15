@@ -12,6 +12,8 @@
 
 Tento projekt najdete na  `<http://mix.gilhad.cz//HW/PS2-RCA-VGA/MakeFair2025.html>`__
 
+Fork: `NanoHomeFORTH <https://github.com/githubgilhad/NanoHomeFORTH>`__
+
 Nano Home Computer 2.7
 --------------------------------------------------------------------------------
 
